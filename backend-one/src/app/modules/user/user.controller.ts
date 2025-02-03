@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt"
 import { User } from "./user.model";
 import axios from "axios";
+import config from "../../config";
 
 export const createUser = async (req: Request, res:Response) => {
     const { username, email, password, bio, interests } = req.body;
@@ -15,7 +16,7 @@ export const createUser = async (req: Request, res:Response) => {
   
     // Forward non-sensitive data to Backend 2
     try {
-      const response = await axios.post(${process.env.BACKEND2_URL}/profile, { userId: newUser._id, bio, interests });
+      const response = await axios.post(${config.BACKEND2_URL}/profile, { userId: newUser._id, bio, interests });
       res.status(201).json({ message: 'User created successfully', userId: newUser._id });
     } catch (error) {
       res.status(500).json({ message: 'Failed to forward non-sensitive data', error });
